@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace ApiCatalogo.Models
 {
@@ -32,6 +33,7 @@ namespace ApiCatalogo.Models
 
         public int CategoriaId { get; set; }
 
+        [JsonIgnore]
         public Categoria? Categoria { get; set; }   // cada produto está mapeado por uma categoria
 
 
