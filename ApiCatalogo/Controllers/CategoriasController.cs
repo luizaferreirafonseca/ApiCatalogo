@@ -23,7 +23,9 @@ namespace ApiCatalogo.Controllers
 
         public ActionResult<IEnumerable<Categoria>> GetCategoriasProdutos()
         {
-            return _context.Categorias.Include(p => p.Produtos).ToList(); // esse include faz pegar também as linhas de produtos
+            // return _context.Categorias.Include(p => p.Produtos).ToList(); // esse include faz pegar também as linhas de produtos
+
+            return _context.Categorias.Include(p => p.Produtos).Where(c => c.CategoriaId <= 5).ToList();
         }
 
 
@@ -33,7 +35,17 @@ namespace ApiCatalogo.Controllers
 
         public ActionResult<IEnumerable<Categoria>> Get()
         {
-            return _context.Categorias.ToList();
+
+            try
+            {
+                return _context.Categorias.AsNoTracking().ToList();
+
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Ocorreu um problema ao tratar a sua solicitação.");
+            }
 
 
         }
@@ -95,7 +107,7 @@ namespace ApiCatalogo.Controllers
 
             if (categoria == null)
             {
-                return NotFound("Categoria não encontrada...");
+                return NotFound($"Categoria com id = {id} não encontrada...");
             }
             _context.Categorias.Remove(categoria);
             _context.SaveChanges();

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApiCatalogo.Controllers
 {
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProdutosController : ControllerBase
     {
@@ -19,7 +19,8 @@ namespace ApiCatalogo.Controllers
 
         //retornar todos os produtos
 
-        [HttpGet]
+
+        [HttpGet("/todosprodutos")]
 
         public ActionResult<IEnumerable<Produto>> Get()
         {
@@ -34,11 +35,13 @@ namespace ApiCatalogo.Controllers
         }
 
 
+
         [HttpGet("{id:int}", Name="ObterProduto")]
 
-        public ActionResult<Produto> Get(int id) 
+        public async Task<ActionResult<Produto>>Get(int id) 
+
         {
-            var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id); 
+            var produto = await _context.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.ProdutoId == id);   
 
             if(produto is null)
             {
