@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ApiCatalogo.Validations;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -13,6 +14,7 @@ namespace ApiCatalogo.Models
 
         [Required]
         [StringLength(80)]
+        [PrimeiraLetraMaiuscula] // adicionando a minha validação personalizada
         public string? Nome { get; set; }
 
         [Required]
